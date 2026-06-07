@@ -1,0 +1,63 @@
+# Environment files
+.env
+.env.*
+
+# Python bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+venv/
+env/
+.venv/
+venv*/
+
+# Installer artifacts
+pip-wheel-metadata/
+*.egg-info/
+build/
+dist/
+.eggs/
+
+# Testing / coverage
+.pytest_cache/
+.mypy_cache/
+.coverage
+coverage.xml
+htmlcov/
+
+# IDE/editor directories
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+debug_raw_llm_output.txt
+
+# Local data, embeddings, caches and exports (large or sensitive)
+data/
+results/
+embeddings/
+embeddings/index.faiss
+embeddings/local_store.json
+embeddings/manifest.json
+Project History Artifacts/
+
+# Local databases and stores
+*.db
+*.sqlite3
+
+# Secrets and credentials
+*.pem
+*.key
+credentials.json
+
+# Jupyter
+.ipynb_checkpoints/
