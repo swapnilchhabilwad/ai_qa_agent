@@ -97,7 +97,7 @@ ai_qa_agent/
 │   ├── billing_history.csv             # Transactional CSV billing audit
 │   │
 │   ├── Projects/                       # 📂 Source PRD files
-│   │   ├── Greenprint/
+│   │   ├── Project name/
 │   │   │   ├── Onboarding/
 │   │   │   │   ├── prd1.txt
 │   │   │   │   └── Onboarding Paid User Enterprise.txt
@@ -112,7 +112,7 @@ ai_qa_agent/
 │   │           └── orangehrm onboarding.txt
 │   │
 │   └── results/                        # 📊 Generated test case CSVs
-│       ├── Greenprint/
+│       ├── Project name/
 │       │   ├── Onboarding/
 │       │   │   ├── prd1_test_cases.csv
 │       │   │   └── Onboarding Paid User Enterprise_test_cases.csv
@@ -520,7 +520,7 @@ You can override these in `.env` if you use different models.
 
 #### Basic Command
 ```powershell
-python main.py --file_path "data/Projects/Greenprint/Onboarding/prd1.txt"
+python main.py --file_path "data/Projects/Project name/Onboarding/prd1.txt"
 ```
 
 #### All CLI Options
@@ -540,25 +540,25 @@ optional arguments:
                         (default: "Generate comprehensive test cases exhaustively
                          for all functional capabilities")
   --file_path FILE_PATH The path to the PRD document.
-                        (default: "data/Projects/Greenprint/Onboarding/prd1.txt")
+                        (default: "data/Projects/Project name/Onboarding/prd1.txt")
   --project PROJECT     The project name to scope memory and results.
-                        (default: "Greenprint")
+                        (default: "Project name")
 ```
 
 #### Examples
 
 ```powershell
-# Basic usage with default project (Greenprint)
-python main.py --file_path "data/Projects/Greenprint/Onboarding/prd1.txt"
+# Basic usage with default project (Project name)
+python main.py --file_path "data/Projects/Project name/Onboarding/prd1.txt"
 
 # Specify a different project
 python main.py --project orangehrm --file_path "data/Projects/orangehrm/Onboarding/orangehrm onboarding.txt"
 
 # Custom query
-python main.py --query "Focus on security and authentication tests" --file_path "data/Projects/Greenprint/Access_Management/'Disclosure Owner' Role.txt"
+python main.py --query "Focus on security and authentication tests" --file_path "data/Projects/Project name/Access_Management/'Disclosure Owner' Role.txt"
 
 # PDF support
-python main.py --file_path "data/Projects/Greenprint/Billing_and_Subscription/plan_details.pdf"
+python main.py --file_path "data/Projects/Project name/Billing_and_Subscription/plan_details.pdf"
 ```
 
 ### Mode 2: API (FastAPI Web Server)
@@ -583,8 +583,8 @@ INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
 ```powershell
 # Using PowerShell
 $body = @{
-    file_path = "data/Projects/Greenprint/Onboarding/prd1.txt"
-    project = "Greenprint"
+    file_path = "data/Projects/Project name/Onboarding/prd1.txt"
+    project = "Project name"
     query = "Generate comprehensive test cases"
 } | ConvertTo-Json
 
@@ -598,14 +598,14 @@ Invoke-RestMethod -Uri "http://localhost:8000/generate-tests" `
 # Using curl
 curl -X POST "http://localhost:8000/generate-tests" ^
   -H "Content-Type: application/json" ^
-  -d "{\"file_path\": \"data/Projects/Greenprint/Onboarding/prd1.txt\", \"project\": \"Greenprint\", \"query\": \"Generate comprehensive test cases\"}"
+  -d "{\"file_path\": \"data/Projects/Project name/Onboarding/prd1.txt\", \"project\": \"Project name\", \"query\": \"Generate comprehensive test cases\"}"
 ```
 
 Example Response:
 ```json
 {
   "status": "success",
-  "csv_path": "data/Results/Greenprint/Onboarding/prd1_test_cases.csv",
+  "csv_path": "data/Results/Project name/Onboarding/prd1_test_cases.csv",
   "test_cases": "### Category: ...",
   "usage": {
     "session_tokens": 15420,
@@ -975,8 +975,8 @@ class TestSuiteResult:
 ```json
 {
   "historical_features": {
-    "data/Projects/Greenprint/Onboarding/prd1.txt": "Features:\n- ...",
-    "data/Projects/Greenprint/Access_Management/'Disclosure Owner' Role.txt": "Features:\n- ..."
+    "data/Projects/Project name/Onboarding/prd1.txt": "Features:\n- ...",
+    "data/Projects/Project name/Access_Management/'Disclosure Owner' Role.txt": "Features:\n- ..."
   }
 }
 ```
@@ -1002,9 +1002,9 @@ class TestSuiteResult:
 ### Full Execution Trace
 
 ```
-INPUT: "data/Projects/Greenprint/Onboarding/prd1.txt"
+INPUT: "data/Projects/Project name/Onboarding/prd1.txt"
 │
-├─ [1] run_agent("Generate comprehensive...", "prd1.txt", "Greenprint")
+├─ [1] run_agent("Generate comprehensive...", "prd1.txt", "Project name")
 │
 ├─ [2] load_data("prd1.txt")
 │   ├─ get_configured_sources("prd1.txt") → [("txt", "prd1.txt")]
@@ -1034,8 +1034,8 @@ INPUT: "data/Projects/Greenprint/Onboarding/prd1.txt"
 │   ├─ Record tokens via usage_tracker.record_usage()
 │   └─ Return: "Features:\n- ...\n\nUser Flows:\n- ..."
 │
-├─ [7] MemoryStore(project_name="Greenprint")
-│   ├─ Opens/Creates "data/Greenprint_memory.json"
+├─ [7] MemoryStore(project_name="Project name")
+│   ├─ Opens/Creates "data/Project name_memory.json"
 │   └─ Loads historical features
 │
 ├─ [8] memory.get_historical_context(exclude_file_id="prd1.txt")
@@ -1085,10 +1085,10 @@ INPUT: "data/Projects/Greenprint/Onboarding/prd1.txt"
 │   └─ Return: "## Final Test Suite\n\n### Category: ...\nTest Case ID: ..."
 │
 ├─ [11] memory.add_or_update_feature_analysis("prd1.txt", analysis)
-│   └─ Saves analysis to Greenprint_memory.json for future impact checks
+│   └─ Saves analysis to Project name_memory.json for future impact checks
 │
 ├─ [12] EXPORT
-│   ├─ Determine output path: "data/Results/Greenprint/Onboarding/prd1_test_cases.csv"
+│   ├─ Determine output path: "data/Results/Project name/Onboarding/prd1_test_cases.csv"
 │   ├─ export_to_csv(result, csv_path)
 │   │   ├─ parse_test_cases(result) → TestCase[]
 │   │   ├─ deduplicate_test_cases() → TestCase[]
@@ -1160,7 +1160,7 @@ When you run `python main.py`, you'll see:
 ```
 Runtime mode: OpenAI-enabled
 
-Loading TXT PRD: data/Projects/Greenprint/Onboarding/prd1.txt
+Loading TXT PRD: data/Projects/Project name/Onboarding/prd1.txt
 Loaded 1 PRD source(s).
 Creating embeddings...
 
@@ -1193,7 +1193,7 @@ Test Case ID: FSS-001
 ...
 (All generated test cases)
 
-[Export Success] Successfully exported 147 test cases to: data/Results/Greenprint/Onboarding/prd1_test_cases.csv
+[Export Success] Successfully exported 147 test cases to: data/Results/Project name/Onboarding/prd1_test_cases.csv
 
 =============================================
 📈 AZURE OPENAI USAGE & BILLING REPORT
@@ -1231,7 +1231,7 @@ The exported CSV has these columns:
 ```json
 {
   "status": "success",
-  "csv_path": "data/Results/Greenprint/Onboarding/prd1_test_cases.csv",
+  "csv_path": "data/Results/Project name/Onboarding/prd1_test_cases.csv",
   "test_cases": "## Final Test Suite\n\n### Category: ...",
   "usage": {
     "session_tokens": 22450,
@@ -1248,8 +1248,8 @@ The exported CSV has these columns:
 
 ```
 Timestamp,Project,Source,Task,Prompt_Tokens,Completion_Tokens,Total_Tokens,Estimated_Cost_USD
-2026-06-07 14:00:00,Greenprint,prd1.txt,Requirement Analysis,12500,3400,15900,$0.001215
-2026-06-07 14:01:00,Greenprint,prd1.txt,Test Gen: Foundational Smoke and Sanity,8500,2100,10600,$0.000855
+2026-06-07 14:00:00,Project name,prd1.txt,Requirement Analysis,12500,3400,15900,$0.001215
+2026-06-07 14:01:00,Project name,prd1.txt,Test Gen: Foundational Smoke and Sanity,8500,2100,10600,$0.000855
 ...
 ```
 
@@ -1290,7 +1290,7 @@ AZURE_OPENAI_API_KEY=sk-your-real-key-here
 
 ```powershell
 Remove-Item -Recurse -Force embeddings/
-python main.py --file_path "data/Projects/Greenprint/Onboarding/prd1.txt"
+python main.py --file_path "data/Projects/Project name/Onboarding/prd1.txt"
 ```
 
 ### 14.5 "No test cases could be parsed from the output"
@@ -1305,7 +1305,7 @@ python main.py --file_path "data/Projects/Greenprint/Onboarding/prd1.txt"
 
 **Fix:** Make sure you're using the correct path. Use absolute paths or paths relative to the project root:
 ```powershell
-python main.py --file_path "data/Projects/Greenprint/Onboarding/prd1.txt"
+python main.py --file_path "data/Projects/Project name/Onboarding/prd1.txt"
 ```
 
 ### 14.7 "FAISS not found" or "ModuleNotFoundError: No module named 'faiss'"
@@ -1499,7 +1499,7 @@ pip install -r requirements.txt
 # ─────────────────────────────────────────
 # RUN CLI
 # ─────────────────────────────────────────
-python main.py --project Greenprint --file_path "data/Projects/Greenprint/Onboarding/prd1.txt"
+python main.py --project Project name --file_path "data/Projects/Project name/Onboarding/prd1.txt"
 python main.py --project orangehrm --file_path "data/Projects/orangehrm/Onboarding/orangehrm onboarding.txt"
 python main.py --help
 
